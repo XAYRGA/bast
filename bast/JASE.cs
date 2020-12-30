@@ -35,8 +35,9 @@ namespace xayrga.bast
         public byte uflags1;
         public byte uflags2;
         public byte type;
-        public byte loadMode; 
-        public bool is_not_empty; // tells if the sound is empty, its a short though. FFFF = true , 0000 = false 
+        public byte loadMode;
+        public ushort unk3;
+
         public float pitch;  // Doesnt seem to affect sequences
         public ushort volume; // Doesn't seem to affect sequences 
 
@@ -73,7 +74,7 @@ namespace xayrga.bast
                 uflags2 = reader.ReadByte();
                 type = reader.ReadByte();
                 loadMode = reader.ReadByte();
-                is_not_empty = reader.ReadUInt16() == 0xFFFF ? true : false;
+                unk3 = reader.ReadUInt16();     
                 pitch = reader.ReadSingle();
                 volume = reader.ReadUInt16();
                 reader.ReadUInt16(); // padding. 

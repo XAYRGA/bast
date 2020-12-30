@@ -31,8 +31,11 @@ namespace xayrga.bast
                     {
                         var outFile = cmdarg.assertArg(2, "Output File");
                         var projDir = cmdarg.assertArg(1, "Project Folder");
+                        var packOrder = cmdarg.tryArg(3,"! PackOrder is not specified and is highly recommended.");
+                        if (packOrder == null)
+                            packOrder = "guess";
                         var pck = new packer();
-                        pck.doPack(projDir, outFile);
+                        pck.doPack(projDir, outFile,packOrder);
                     }
                     break;
                 case "help":

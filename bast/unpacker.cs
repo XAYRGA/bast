@@ -43,51 +43,28 @@ namespace xayrga.bast
             wl.loadCategories(reader, false);
 
             var catSorted = wl.Categories;
-            // sort 
-            for (int i = 0; i < 0x12; i++) // a third __fucking iteration__ on these stupid vectors.
-            {
-                for (int j = 0; j < 0x12; j++)
-                {
-                    var current = catSorted[i]; // Grab current oscillator vector, notice the for loop starts at 1
-                    var cmp = catSorted[j]; // Grab the previous object
-                    if (cmp.startID > current.startID) // if its time is greater than ours
-                    {
-                        catSorted[j] = current; // shift us down
-                        catSorted[i] = cmp; // shift it up
-                    }
-                }
-            }
+        
             var totalID = 0;
              // load indices 
             for (int i = 0; i < catSorted.Length; i++)
             {
                 var cat = catSorted[i];
-                if (cat.count > 0)
-                {
-                    for (int q = 0; q < cat.count; q++)
+
+                    reader.BaseStream.Position = 0x50 + cat.startID * 0x10; // just like daddy nintendo does. 
+                    if (cat.count > 0)
                     {
-                        cat.sounds[q] = new JASESound();
-                        cat.sounds[q].readInfo(reader, false);
-                        cat.sounds[q].id = totalID;
-                        cat.sounds[q].index = q;
-                        totalID++;
+                        for (int q = 0; q < cat.count; q++)
+                        {
+                            cat.sounds[q] = new JASESound();
+                            cat.sounds[q].readInfo(reader, false);
+                            cat.sounds[q].id = totalID;
+                            cat.sounds[q].index = q;
+                            totalID++;
+                        }
                     }
-                }
-            }
-            // unsort again, lol
-            for (int i = 0; i < 0x12; i++) // a third __fucking iteration__ on these stupid vectors.
-            {
-                for (int j = 0; j < 0x12; j++)
-                {
-                    var current = catSorted[i]; // Grab current oscillator vector, notice the for loop starts at 1
-                    var cmp = catSorted[j]; // Grab the previous object
-                    if (cmp.index > current.index) // if its time is greater than ours
-                    {
-                        catSorted[j] = current; // shift us down
-                        catSorted[i] = cmp; // shift it up
-                    }
-                }
-            }
+             }
+            
+
 
             var w = new JASEProject();
             w.version = wl.u1;
