@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 
 namespace xayrga.bast
 {
-    class unpacker
+    class JASEUnpacker
     {
         private Stream stream;
         private BeBinaryReader reader;

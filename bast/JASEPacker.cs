@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 
 namespace xayrga.bast
 {
-    class packer
+    class JASEPacker
     {
         private Stream stream;
         private BeBinaryWriter writer;
@@ -47,6 +47,7 @@ namespace xayrga.bast
             }
         }
 
+
         private void packJASE(string projectFolder, JASEProject project, string packOrder = "guess")
         {
 
@@ -56,10 +57,8 @@ namespace xayrga.bast
 
 
             JASECategory[] categories = new JASECategory[0x12];
-
             var totalSoundCount = 0;
             for (int i = 0; i < 0x12; i++)
-            {
                 if (project.includes[i] != null)
                 {
                     var jDat = File.ReadAllText($"{projectFolder}/{project.includes[i]}");
@@ -69,12 +68,9 @@ namespace xayrga.bast
                     
                     totalSoundCount += categories[i].sounds.Length;
                 }
-                else
-                {
-                    categories[i] = new JASECategory { startID = 0, count = 0, index = 0xFF };
-                }
+                else                
+                    categories[i] = new JASECategory { startID = 0, count = 0, index = 0xFF };                
 
-            }
             writer.Write((ushort)totalSoundCount);
 
             var catSorted = new JASECategory[0x12]; // strong ref to JASECategory. Changes here will affect final objects
@@ -108,23 +104,16 @@ namespace xayrga.bast
                 if (orderTable.Length < 0x12)
                     cmdarg.assert("Packorder is specified! Must be 0x12 bytes!");
                 for (int i = 0; i < 0x12; i++)
-                {
                     if (orderTable[i] != 0xFF)
-                    {
                         catSorted[i] = categories[orderTable[i]];
-                    }
                     else
-                    {
                         catSorted[i] = new JASECategory { startID = 0, count = 0, index = 0xFF };
-                    }
-                }
             }
 
             totalSoundCount = 0; 
             for (int i = 0; i < 0x12; i++)
             {
                 var cat = catSorted[i];
-                //Console.WriteLine(cat.startID + " | " + cat.count);
                 if (cat.count > 0)
                 {
                     cat.startID = (ushort)totalSoundCount;

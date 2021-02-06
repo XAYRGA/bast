@@ -58,14 +58,17 @@
     <Compile Include="beio\Empty.cs" />
     <Compile Include="beio\Error.cs" />
     <Compile Include="beio\Reinterpret.cs" />
+    <Compile Include="JBSTNamePacker.cs" />
+    <Compile Include="JBSTPacker.cs" />
+    <Compile Include="JBSTUnpacker.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="JBST.cs" />
     <Compile Include="cmdarg.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SoundTable.cs" />
-    <Compile Include="packer.cs" />
-    <Compile Include="unpacker.cs" />
+    <Compile Include="JASEPacker.cs" />
+    <Compile Include="JASEUnpacker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
